@@ -11,12 +11,25 @@
 			type="text/css">
 
 		<!--CSS-->
-		<link rel = "stylesheet" type = "text/css" href = "css/style.css">
+		<link rel = "stylesheet" type = "text/css" href = "../css/style.css">
 
 		<title>Consulta</title>
 	</head>
 
 	<body>
+		<h1>CONSULTA DE PROGRAMA DE UNIVERSIDADES</h1>
+
+		<!--Formulario-->
+		<form action="/cgi-bin/consulta.html">
+			<select name="opcion">
+				<option value="nombre">NOMBRE UNIVERSIDAD</option>
+				<option value="licencia">PERIODO LICENCIAMIENTO</option>
+				<option value="departamento">DEPARTAMENTO LOCAL</option>
+				<option value="denominacion">DENOMINACIÓN PROGRAMA</option>
+			</select>
+			<input type="text" name="entrada">
+			<input type="submit" value="Buscar">
+		</form>
 		
 	</body>
 </html>
