@@ -11,7 +11,7 @@ print <<HTML;
 <html>
   <head> 
     <meta charset="utf-8"> 
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>Resultado</title>
   </head>
 <body>
@@ -25,7 +25,7 @@ my $entrada = $cgi->param("entrada");
 my $flag;
 if ( !($opcion eq "") && !($entrada eq "") )
 {
-	open(IN,"./universidades.txt") or die "<h1>ERROR: open file</h1>\n";
+	open(IN,"./universidades.txt") or die print "<h1>ERROR: open file</h1>\n";
 
 	while (my $linea = <IN>)
 	{
@@ -34,27 +34,25 @@ if ( !($opcion eq "") && !($entrada eq "") )
 
 		if(defined($valor) && $valor =~ /.*$entrada.*/)
 		{
-		    print "<h1>Encontrado: $line</h1>\n";
+		    print "<h1>Encontrado: $linea</h1>\n";
 		    $flag = 1;
 		    next;
 		}
     }
 }
+print "</body></html>";
 
 sub match {
 	my %dict = ();
 	my $linea = $_[0];
 
-	if ( $linea =~ /.*\|(.*)\| [.*\|]{4} (.*)\| [.*\|]{5} (.*)\| [.*\|]{5} (.*)\| / )
+	if ( $linea =~ /\|(.*?)\|(?:.*?\|){4}(.*?)\|(?:.*?\|){5}(.*?)\|(?:.*?\|){5}(.*?)\|/ )
 	{
 		$dict{"nombre"} = $1;
 		$dict{"licencia"} = $2;
 		$dict{"departamento"} = $3;
 		$dict{"denominacion"} = $4;
-	}
-	else
-	{
-		print "<h1>Error la linea no hace match: $linea</h1>\n";
+
 	}
 
 	return %dict;
