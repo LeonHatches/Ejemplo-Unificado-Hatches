@@ -1,30 +1,55 @@
-#!/usr/bin/perl
+#!/Strawberry/perl/bin/perl.exe
+#/usr/bin/perl
 
 use strict;
 use warnings;
 use CGI;
 use utf8;
 
-print "Content-type: text/html\n\n";
-print <<HTML;
+my $cgi = CGI->new;
+
+
+my $opcion = $cgi->param("opcion");
+my $entrada = $cgi->param("entrada");
+
+print $cgi->header('text/html');
+$cgi->charset('UTF-8');
+
+print<<HTML;
 <!DOCTYPE html>
 <html>
   <head> 
-    <meta charset="utf-8"> 
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <title>Resultado</title>
+    	<!--Extensión para caracteres especiales-->
+		<meta charset="utf-8">
+
+		<!--fuente de letra-->
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+			rel="stylesheet"
+			type="text/css">
+
+		<!--CSS-->
+		<link rel = "stylesheet" type = "text/css" href = "/css/style.css">
+    	
+    	<style type="text/css">
+    		body { margin: 0px; }
+    	</style>
+
+    	<title>Resultados</title>
   </head>
-<body>
+
+	<body>	
 HTML
 
 
-my $cgi = CGI->new;
-my $opcion = $cgi->param("opcion");
-my $entrada = $cgi->param("entrada");
 
 my $flag;
 if ( !($opcion eq "") && !($entrada eq "") )
 {
+	print"<div class=\"cajaResultado\">";
+	print"<h1>RESULTADOS</h1>";
+	print"</div>";
+
 	open(IN,"./universidades.txt") or die print "<h1>ERROR: open file</h1>\n";
 
 	while (my $linea = <IN>)
@@ -34,11 +59,16 @@ if ( !($opcion eq "") && !($entrada eq "") )
 
 		if(defined($valor) && $valor =~ /.*$entrada.*/)
 		{
-		    print "<h1>Encontrado: $linea</h1>\n";
+		    print "<p>$linea</p>\n";
 		    $flag = 1;
 		    next;
 		}
     }
+}
+else {
+	print"<div class=\"cajaResultado\">";
+	print"<h1>INGRESE DATOS ...</h1>";
+	print"</div>";
 }
 print "</body></html>";
 
