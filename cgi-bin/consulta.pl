@@ -8,12 +8,11 @@ use utf8;
 
 my $cgi = CGI->new;
 
+print $cgi->header('text/html');
+$cgi->charset('UTF-8');
 
 my $opcion = $cgi->param("opcion");
 my $entrada = $cgi->param("entrada");
-
-print $cgi->header('text/html');
-$cgi->charset('UTF-8');
 
 print<<HTML;
 <!DOCTYPE html>
@@ -42,13 +41,13 @@ print<<HTML;
 HTML
 
 
-
-my $flag;
+my $i = 0;
 if ( !($opcion eq "") && !($entrada eq "") )
 {
 	print"<div class=\"cajaResultado\">";
 	print"<h1>RESULTADOS</h1>";
 	print"</div>";
+	print"<h2 class=\"caja\">Búsqueda: $entrada</h2>";
 
 	open(IN,"./universidades.txt") or die print "<h1>ERROR: open file</h1>\n";
 
@@ -57,10 +56,16 @@ if ( !($opcion eq "") && !($entrada eq "") )
 		my %dict = match($linea);
 		my $valor = $dict{$opcion};
 
-		if(defined($valor) && $valor =~ /.*$entrada.*/)
+		if(defined($valor) && $valor =~ /.*$entrada.*/ && ($i % 2 == 0))
 		{
-		    print "<p>$linea</p>\n";
-		    $flag = 1;
+	  		print "<p class=\"cajaBlanca\">$linea</p>\n";
+		    $i = $i + 1;
+		    next;
+		}
+		elsif (defined($valor) && $valor =~ /.*$entrada.*/ && ($i % 2 == 1))
+		{
+			print "<p class=\"cajaGris\">$linea</p>\n";
+		    $i = $i + 1;
 		    next;
 		}
     }
@@ -72,6 +77,8 @@ else {
 }
 print "</body></html>";
 
+
+
 sub match {
 	my %dict = ();
 	my $linea = $_[0];
@@ -82,7 +89,6 @@ sub match {
 		$dict{"licencia"} = $2;
 		$dict{"departamento"} = $3;
 		$dict{"denominacion"} = $4;
-
 	}
 
 	return %dict;

@@ -30,6 +30,14 @@ titulo {
     padding: 5% 2% 0%;
 }
 
+.cajaBlanca, .cajaGris {
+    padding: 5%
+}
+
+.cajaGris {
+    background-color: #d3d3d3;
+}
+
 .cajaResultado {
     text-align: center;
     padding: 10%;
