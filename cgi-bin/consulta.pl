@@ -19,7 +19,7 @@ $entrada = decode('UTF-8', $entrada);
 print<<HTML;
 <!DOCTYPE html>
 <html>
-  <head> 
+  	<head> 
     	<!--Extensión para caracteres especiales-->
 		<meta charset="utf-8">
 
@@ -33,18 +33,18 @@ print<<HTML;
 		<link rel = "stylesheet" type = "text/css" href = "/css/style.css">
     	
     	<style type="text/css">
-    		body { margin: 0px; }
+    		body { margin: 0px 0px 100px; }
     	</style>
 
     	<title>Resultados</title>
-  </head>
+  	</head>
 
 	<body>	
 HTML
 
 
 my $i = 0;
-if ( !($opcion eq "") && !($entrada eq "") )
+if ( !($entrada eq "") )
 {
 	print "<div class=\"cajaResultado\">\n";
 	print "<h1>RESULTADOS</h1>\n";
@@ -58,17 +58,35 @@ if ( !($opcion eq "") && !($entrada eq "") )
 		my %dict = match($linea);
 		my $valor = $dict{$opcion};
 
-		if(defined($valor) && $valor =~ /.*$entrada.*/i && ($i % 2 == 0))
+		if (!($opcion eq "licencia"))
 		{
-	  		print "<p class=\"cajaBlanca\">$linea</p>\n";
-		    $i++;
-		    next;
+			if(defined($valor) && $valor =~ /.*$entrada.*/i && ($i % 2 == 0))
+			{
+		  		print "<p class=\"cajaBlanca\">$linea</p>\n";
+			    $i++;
+			    next;
+			}
+			elsif (defined($valor) && $valor =~ /.*$entrada.*/i && ($i % 2 == 1))
+			{
+				print "<p class=\"cajaGris\">$linea</p>\n";
+			    $i++;
+			    next;
+			}
 		}
-		elsif (defined($valor) && $valor =~ /.*$entrada.*/i && ($i % 2 == 1))
+		else
 		{
-			print "<p class=\"cajaGris\">$linea</p>\n";
-		    $i++;
-		    next;
+			if(defined($valor) && $valor eq $entrada && ($i % 2 == 0))
+			{
+		  		print "<p class=\"cajaBlanca\">$linea</p>\n";
+			    $i++;
+			    next;
+			}
+			elsif (defined($valor) && $valor eq $entrada && ($i % 2 == 1))
+			{
+				print "<p class=\"cajaGris\">$linea</p>\n";
+			    $i++;
+			    next;
+			}
 		}
     }
     close $archivo;

@@ -31,7 +31,8 @@ titulo {
 }
 
 .cajaBlanca, .cajaGris {
-    padding: 5%
+    padding: 1%;
+    margin: 0px;
 }
 
 .cajaGris {
